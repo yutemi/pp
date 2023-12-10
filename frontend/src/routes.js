@@ -5,8 +5,8 @@ import { CreatePage } from "./pages/CreatePage"
 import { DetailPage } from "./pages/DetailPage"
 import { AuthPage } from "./pages/AuthPage"
 
-export const useRoutes = isAuthenticated => {
-    if (isAuthenticated){
+export const useRoutes = isAuth => {
+    if (isAuth){
         return (
             <Routes>
                 <Route path="/links" exact element={
@@ -18,6 +18,7 @@ export const useRoutes = isAuthenticated => {
                 <Route path="/detail/:id" element={
                     <DetailPage />
                 } />
+                <Route path="/" element={<Navigate replace to="/create" />} />
             </Routes>
         )
     }
@@ -28,6 +29,7 @@ export const useRoutes = isAuthenticated => {
                 <AuthPage />
             }>
             </Route>
+            <Route path="/" element={<Navigate replace to="/" />} />
         </Routes>
     )
 }

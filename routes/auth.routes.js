@@ -39,7 +39,7 @@ router.post(
 
 
         } catch (error) {
-            res.status(500).json({message: "?"})
+            return res.status(500).json({message: "?"})
         }
     })
 
@@ -71,7 +71,7 @@ router.post(
         const isMatch = await bcrypt.compare(pass, user.pass)
 
         if (!isMatch) {
-            res.status(400).json({message: "неверный пароль"})
+            return res.status(400).json({message: "неверный пароль"})
         }
 
         const token = jwt.sign(
@@ -84,7 +84,7 @@ router.post(
 
     } catch (error) {
         console.log(error.message)
-        res.status(500).json({message: "?"})
+        return res.status(500).json({message: "?"})
     }
 })
 
