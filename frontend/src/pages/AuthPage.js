@@ -9,7 +9,7 @@ export const AuthPage = () => {
     const msg = useMsg()
     const {loading, err, request, clearErr} = useHttp()
     const [form, setForm] = useState({
-        email: "", pass: ""
+        email: "", passw: ""
     })
 
 
@@ -17,6 +17,10 @@ export const AuthPage = () => {
         msg(err)
         clearErr()
     }, [err, msg, clearErr])
+
+    useEffect(() => {
+        window.M.updateTextFields()
+    }, [])
 
     const changeHandler = event => {
         setForm({...form, [event.target.name]: event.target.value })
@@ -52,19 +56,21 @@ export const AuthPage = () => {
                                 id="email"
                                 type="text"
                                 name="email"
+                                value={form.email}
                                 onChange={changeHandler}
                             />
                             <label htmlFor="email">email</label>
                         </div>
                         <div className="input">
                             <input 
-                                placeholder="pass"
-                                id="pass"
+                                placeholder="passw"
+                                id="passw"
                                 type="password"
-                                name="pass"
+                                name="passw"
+                                value={form.passw}
                                 onChange={changeHandler}
                             />
-                            <label htmlFor="pass">pass</label>
+                            <label htmlFor="passw">password</label>
                         </div>
                     </div>
                     <div className="card-action">

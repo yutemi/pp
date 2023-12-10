@@ -4,7 +4,7 @@ import "materialize-css"
 import { useRoutes } from "./routes"
 import { useAuth } from "./hooks/auth.hook"
 import { AuthContext } from "./context/AuthContext"
-import { Navbar } from "./comp/navbar"
+import { Navbar } from "./components/navbar"
 
 function App() {
   const {token, login, logout, userId} = useAuth()

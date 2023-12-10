@@ -10,7 +10,7 @@ router.post(
     "/register", 
     [
         check("email", "некорр email").isEmail(),
-        check("pass", "длина 7 символов").isLength({min: 7})
+        check("passw", "длина 7 символов").isLength({min: 7})
     ],
     async(req, res) => {
         try {
@@ -22,7 +22,7 @@ router.post(
                     message: "некорр данные при регистрации"
                 })
             }
-            const {email, pass} = req.body
+            const {email, passw} = req.body
 
             const newUser = await User.findOne({email})
 
@@ -30,8 +30,8 @@ router.post(
                 return res.status(400).json({message: "такой п уже есть"})
             }
 
-            const hashedPass = await bcrypt.hash(pass, 12)
-            const user = new User({email, pass: hashedPass})
+            const hashedpassw = await bcrypt.hash(passw, 12)
+            const user = new User({email, passw: hashedpassw})
 
             await user.save()
 
@@ -39,7 +39,7 @@ router.post(
 
 
         } catch (error) {
-            return res.status(500).json({message: "?"})
+            return res.status(500).json({message: "reg err"})
         }
     })
 
@@ -47,7 +47,7 @@ router.post(
     "/login",
     [
         check("email", "некорр email").isEmail(),
-        check("pass", "введите пароль").exists()
+        check("passw", "введите пароль").exists()
     ],
     async(req, res) => {
     try {
@@ -60,7 +60,7 @@ router.post(
             })
         }
         
-        const {email, pass} = req.body
+        const {email, passw} = req.body
 
         const user = await User.findOne({email: email})
 
@@ -68,7 +68,7 @@ router.post(
             return res.status(400).json({message: "п не найден"})
         }
 
-        const isMatch = await bcrypt.compare(pass, user.pass)
+        const isMatch = await bcrypt.compare(passw, user.passw)
 
         if (!isMatch) {
             return res.status(400).json({message: "неверный пароль"})
@@ -84,7 +84,7 @@ router.post(
 
     } catch (error) {
         console.log(error.message)
-        return res.status(500).json({message: "?"})
+        return res.status(500).json({message: "login err"})
     }
 })
 
