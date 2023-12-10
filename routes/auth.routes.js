@@ -25,20 +25,21 @@ router.post(
             const {email, pass} = req.body
 
             const newUser = await User.findOne({email})
-            if (!newUser) {
+
+            if (newUser != null) {
                 return res.status(400).json({message: "такой п уже есть"})
             }
 
             const hashedPass = await bcrypt.hash(pass, 12)
-            const user = new User({email: email, pass: hashedPass})
-
+            const user = new User({email, pass: hashedPass})
+            console.log(user)
             await user.save()
 
             res.status(201).json({message: "п создан"})
 
 
         } catch (error) {
-            res.status(500).json({message: "бб"})
+            res.status(500).json({message: "?"})
         }
     })
 
@@ -82,7 +83,8 @@ router.post(
         res.json({token, userId: user.id})
 
     } catch (error) {
-        res.status(500).json({message: "бб"})
+        console.log(error.message)
+        res.status(500).json({message: "?"})
     }
 })
 

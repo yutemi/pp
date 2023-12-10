@@ -4,7 +4,9 @@ const mongoose = require("mongoose")
 
 const app = express()
 
-app.use("/api/auth")
+app.use(express.json({extended: true}))
+
+app.use("/api/auth", require("./routes/auth.routes"))
 
 const PORT = config.get("port") || 5000
 
@@ -16,8 +18,8 @@ async function start() {
             useCreateIndex: true
         }))
         app.listen(5000, () => console.log(`123, port: ${PORT}`))
-    } catch (error) {
-        console.log(error.message)
+    } catch (e) {
+        console.log(e.message)
         process.exit()
     }
 }
