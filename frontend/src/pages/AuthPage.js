@@ -68,8 +68,8 @@ export const AuthPage = () => {
                     <div className="card-action">
                         <button 
                             className="btn yellow darken-4"
+                            onClick={loginHandler}
                             disabled={loading}
-                            onClick={loginHandler}  
                         >
                             войти
                         </button>

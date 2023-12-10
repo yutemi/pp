@@ -26,13 +26,13 @@ router.post(
 
             const newUser = await User.findOne({email})
 
-            if (newUser != null) {
+            if (newUser) {
                 return res.status(400).json({message: "такой п уже есть"})
             }
 
             const hashedPass = await bcrypt.hash(pass, 12)
             const user = new User({email, pass: hashedPass})
-            console.log(user)
+
             await user.save()
 
             res.status(201).json({message: "п создан"})
@@ -46,7 +46,7 @@ router.post(
 router.post(
     "/login",
     [
-        check("email", "некорр email").normalizeEmail().isEmail(),
+        check("email", "некорр email").isEmail(),
         check("pass", "введите пароль").exists()
     ],
     async(req, res) => {
@@ -62,7 +62,7 @@ router.post(
         
         const {email, pass} = req.body
 
-        const user = await User.findOne({email})
+        const user = await User.findOne({email: email})
 
         if (!user) {
             return res.status(400).json({message: "п не найден"})
@@ -75,12 +75,12 @@ router.post(
         }
 
         const token = jwt.sign(
-            {userId: user.id},
+            {userId: user._id},
             config.get("jwtSecret"),
             {expiresIn: "1h"}
         )
         
-        res.json({token, userId: user.id})
+        res.json({token, userId: user._id})
 
     } catch (error) {
         console.log(error.message)
