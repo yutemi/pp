@@ -1,5 +1,5 @@
 import React from "react"
-import {Routes, Route, Navigate} from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import { LinksPage } from "./pages/LinksPage"
 import { CreatePage } from "./pages/CreatePage"
 import { DetailPage } from "./pages/DetailPage"
@@ -15,7 +15,7 @@ export const useRoutes = isAuth => {
                 <Route path="/create" exact element={
                     <CreatePage />
                 } />
-                <Route path="/detail/:id" element={
+<Route path="/detail/:id" element={
                     <DetailPage />
                 } />
                 <Route path="/" element={<Navigate replace to="/create" />} />
@@ -29,7 +29,7 @@ export const useRoutes = isAuth => {
                 <AuthPage />
             }>
             </Route>
-            <Route path="/" element={<Navigate replace to="/" />} />
+                        <Route path="/" element={<Navigate replace to="/" />} />
         </Routes>
     )
 }

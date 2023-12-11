@@ -8,7 +8,7 @@ export const CreatePage = () => {
     const {request} = useHttp()
 
     const pressHandler = async event => {
-        if (event.onBeforeInput){
+        if (event.onKeyDown){
             try {
                 const data = await request("/api/link/generate", "POST", {from: link}, {
                     Authorization: `Bearer ${auth.token}`
