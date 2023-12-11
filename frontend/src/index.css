@@ -1,1 +1,16 @@
 @import "~materialize-css/dist/css/materialize.min.css";
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+.card {
+    width: 300px;
+    height: auto;
+}
+
+.card-image{
+    width:200px;
+    height: 200px;
+    margin: 50px;
+}

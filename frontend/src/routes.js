@@ -4,21 +4,25 @@ import { LinksPage } from "./pages/LinksPage"
 import { CreatePage } from "./pages/CreatePage"
 import { DetailPage } from "./pages/DetailPage"
 import { AuthPage } from "./pages/AuthPage"
+import { ProfilePage } from "./pages/ProfilePage"
+import { MainPage } from "./pages/MainPage"
 
 export const useRoutes = isAuth => {
     if (isAuth){
         return (
             <Routes>
-                <Route path="/links" exact element={
-                    <LinksPage />
+                <Route path="/profile" exact element={
+                    <ProfilePage />
                 } />
                 <Route path="/create" exact element={
                     <CreatePage />
                 } />
-<Route path="/detail/:id" element={
+                <Route path="/detail/:id" element={
                     <DetailPage />
                 } />
-                <Route path="/" element={<Navigate replace to="/create" />} />
+                <Route path="/" exact element={
+                    <MainPage />
+                } />
             </Routes>
         )
     }
@@ -26,10 +30,13 @@ export const useRoutes = isAuth => {
     return(
         <Routes>
             <Route path="/" exact element={
-                <AuthPage />
+                <MainPage />
             }>
             </Route>
-                        <Route path="/" element={<Navigate replace to="/" />} />
+            <Route path="/auth" exact element={
+                <AuthPage />
+            } />
+            <Route path="/" element={<Navigate replace to="/" />} />
         </Routes>
     )
 }

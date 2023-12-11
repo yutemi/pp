@@ -20,7 +20,7 @@ function App() {
       token, login, logout, userId, isAuth
     }}>
     <Router>
-      {isAuth && <Navbar />}
+      {<Navbar />}
       <div className="container">
         {routes}
       </div>
