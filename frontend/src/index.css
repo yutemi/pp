@@ -7,6 +7,7 @@
 .card {
     width: 300px;
     height: auto;
+    color: black;
 }
 
 .card-image{

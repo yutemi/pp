@@ -17,9 +17,10 @@ export const Navbar = () => {
             <a href="/" className="brand-logo" style={{position: "left"}}>bebr</a>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
                 <li><NavLink to="/profile">profile</NavLink></li>
-                <li><NavLink to="/create">create</NavLink></li>
                 <li><NavLink to="/links">links</NavLink></li>
-                <li><a href="/" onClick={logoutHandler}>exit</a></li>
+                <li><NavLink to="/cart">cart</NavLink></li>
+                <li><a href="/" onClick={logoutHandler}>logout</a></li>
+                
             </ul>
         </div>
     </nav>

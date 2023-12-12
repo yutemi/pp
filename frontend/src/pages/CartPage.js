@@ -2,25 +2,25 @@ import React, {useCallback, useContext, useEffect, useState} from 'react'
 import {useHttp} from '../hooks/http.hook'
 import {AuthContext} from '../context/AuthContext'
 import {Loader} from '../components/Loader'
-import {LinksList} from '../components/LinksList'
+import {ItemsList} from '../components/ItemsList'
 
-export const LinksPage = () => {
-  const [links, setLinks] = useState([])
+export const CartPage = () => {
+  const [items, setItems] = useState([])
   const {loading, request} = useHttp()
   const {token} = useContext(AuthContext)
 
-  const fetchLinks = useCallback(async () => {
+  const fetchItems = useCallback(async () => {
     try {
-      const fetched = await request('/api/link', 'GET', null, {
+      const fetched = await request('/api/item', 'GET', null, {
         Authorization: `Bearer ${token}`
       })
-      setLinks(fetched)
+      setItems(fetched)
     } catch (e) {}
   }, [token, request])
 
   useEffect(() => {
-    fetchLinks()
-  }, [fetchLinks])
+    fetchItems()
+  }, [fetchItems])
 
   if (loading) {
     return <Loader/>
@@ -28,7 +28,7 @@ export const LinksPage = () => {
 
   return (
     <>
-      {!loading && <LinksList links={links} />}
+      {!loading && <ItemsList items={items} />}
     </>
   )
 }

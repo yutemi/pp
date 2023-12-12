@@ -1,6 +1,6 @@
-const {Schema, model, Types} = require("mongoose")
+const {Schema, model} = require("mongoose")
 
-const schema = new Schema({
+const Item = new Schema({
     name: {
         type: String,
         required: true,
@@ -13,10 +13,11 @@ const schema = new Schema({
     desc: {
         type: String
     },
-    image: {
+    imageurl: {
         type: String,
         required: true
     }
 })
 
-module.exports = model("Item", schema)
+
+module.exports = model("Item", Item)

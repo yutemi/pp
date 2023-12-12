@@ -1,16 +1,16 @@
 const {Router} = require("express")
+const router = Router()
 const bcrypt = require("bcryptjs")
 const config = require("config")
 const jwt = require("jsonwebtoken")
 const {check, validationResult} = require("express-validator")
 const User = require("../models/User")
-const router = Router()
 
 router.post(
     "/register", 
     [
         check("email", "некорр email").isEmail(),
-        check("passw", "длина 7 символов").isLength({min: 7})
+        check("passw", "длина 7 символов").isLength({min: 1})
     ],
     async(req, res) => {
         try {
@@ -31,7 +31,7 @@ router.post(
             }
 
             const hashedpassw = await bcrypt.hash(passw, 12)
-            const user = new User({email, passw: hashedpassw})
+            const user = await User.create({email, passw: hashedpassw})
 
             await user.save()
 
