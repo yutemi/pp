@@ -28,7 +28,7 @@ export const AuthPage = () => {
 
     const regHandler = async () => {
         try {
-            const data = await request("/api/auth/register", "POST", {...form})
+            const data = await request("/api/user/register", "POST", {...form})
             msg(data.message)
         } catch (e) {
             
@@ -37,7 +37,7 @@ export const AuthPage = () => {
 
     const loginHandler = async () => {
         try {
-            const data = await request("/api/auth/login", "POST", {...form})
+            const data = await request("/api/user/login", "POST", {...form})
             auth.login(data.token, data.userId)
         } catch (e) {
             

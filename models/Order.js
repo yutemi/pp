@@ -1,15 +1,14 @@
 const {Schema, model, Types} = require("mongoose")
 
-const cartSchema = new Schema({
+const orderSchema = new Schema({
     owner: {
         type: Types.ObjectId,
-        required: true,
-        ref: 'User'
+        ref: "User"
     },
     items: [{
         itemId: {
             type: Types.ObjectId,
-            ref: 'Item',
+            ref: "Item",
             required: true
         },
         name: String,
@@ -23,10 +22,9 @@ const cartSchema = new Schema({
     }],
     bill: {
         type: Number,
+        required: true,
         default: 0
     }
-}, {
-    timestamps: true
 })
 
-module.exports = model("Cart", cartSchema)
+module.exports = model("Order", orderSchema)

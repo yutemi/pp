@@ -28,17 +28,17 @@ router.post("/generate", auth, async (req, res) => {
 
         res.status(201).json({link})
 
-    } catch (error) {
-        return res.status(500).json({message: "?"})
+    } catch (e) {
+        return res.status(500).json({message: e})
     }
 })
 
 router.get("/", auth, async (req, res) => {
     try {
         const links = await Link.find({ owner: req.user.userId }) 
-        res.json(links)
-    } catch (error) {
-        return res.status(500).json({message: "?"})
+                res.json(links)
+    } catch (e) {
+        return res.status(500).json({message: e})
     }
 })
 
@@ -46,8 +46,8 @@ router.get("/:id", auth,  async (req, res) => {
     try {
         const links = await Link.findById(req.params.id) 
         res.json(links)
-    } catch (error) {
-        return res.status(500).json({message: "?"})
+    } catch (e) {
+        return res.status(500).json({message: e})
     }
 })
 module.exports = router

@@ -1,9 +1,9 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import React from "react"
+import {Link} from "react-router-dom"
 
 export const ItemsList = ({ items }) => {
   if (!items.length) {
-    return <p className="center">Ссылок пока нет</p>
+    return <p className="center">корзина пуста</p>
   }
 
   return (

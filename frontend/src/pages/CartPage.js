@@ -1,8 +1,8 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react'
-import {useHttp} from '../hooks/http.hook'
-import {AuthContext} from '../context/AuthContext'
-import {Loader} from '../components/Loader'
-import {ItemsList} from '../components/ItemsList'
+import React, {useCallback, useContext, useEffect, useState} from "react"
+import {useHttp} from "../hooks/http.hook"
+import {AuthContext} from "../context/AuthContext"
+import {Loader} from "../components/Loader"
+import {ItemsList} from "../components/ItemsList"
 
 export const CartPage = () => {
   const [items, setItems] = useState([])
@@ -11,24 +11,24 @@ export const CartPage = () => {
 
   const fetchItems = useCallback(async () => {
     try {
-      const fetched = await request('/api/item', 'GET', null, {
-        Authorization: `Bearer ${token}`
-      })
-      setItems(fetched)
-    } catch (e) {}
-  }, [token, request])
+        const fetched = await request("/api/cart", "GET", null, {
+            Authorization: `Bearer ${token}`
+        })
+        setItems(fetched)
+        } catch (e) {}
+    }, [token, request])
 
-  useEffect(() => {
-    fetchItems()
-  }, [fetchItems])
+    useEffect(() => {
+        fetchItems()
+    }, [fetchItems])
 
-  if (loading) {
-    return <Loader/>
-  }
+    if (loading) {
+        return <Loader/>
+    }
 
-  return (
-    <>
-      {!loading && <ItemsList items={items} />}
-    </>
-  )
+    return (
+        <>
+        {!loading && <ItemsList items={items} />}
+        </>
+    )
 }
