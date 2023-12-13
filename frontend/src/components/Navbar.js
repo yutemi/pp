@@ -11,16 +11,31 @@ export const Navbar = () => {
         auth.logout()
         navigate("/")
     }
+
     return (
     <nav>
         <div className="nav-wrapper" style={{padding: "0 2rem"}}>
             <a href="/" className="brand-logo" style={{position: "left"}}>bebr</a>
             <ul id="nav-mobile" className="right hide-on-med-and-down">
-                <li><NavLink to="/profile">profile</NavLink></li>
-                <li><NavLink to="/links">links</NavLink></li>
-                <li><NavLink to="/cart">cart</NavLink></li>
-                <li><a href="/" onClick={logoutHandler}>logout</a></li>
-                
+                {auth.isAuth ? (
+                    <>
+                    <li>
+                        <NavLink to="/profile">профиль</NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="/cart">корзина</NavLink>
+                    </li>
+                    <li>
+                        <a href="/" onClick={logoutHandler}>
+                            logout
+                        </a>
+                    </li>
+                    </>
+                ) : (
+                    <li>
+                        <NavLink to="/login">login</NavLink>
+                    </li>
+                )}   
             </ul>
         </div>
     </nav>
