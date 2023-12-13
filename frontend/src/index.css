@@ -6,7 +6,7 @@
 }
 .card {
     width: 300px;
-    height: auto;
+    height: 450px;
     color: black;
 }
 
@@ -16,9 +16,20 @@
     margin: 50px;
 }
 
-.btn-large {
+.b-large {
     position: absolute;
-    top: 20%;
-    right: 5%; /* Adjust this value to control the distance from the right edge */
+    top: 15ch;
+    right:3ch;
     transform: translateY(-50%);
 }
+
+.b {
+    display:grid
+}
+
+.b-main {
+    margin-left: 25%;
+}
+
+
+

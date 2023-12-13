@@ -6,7 +6,6 @@ class orderController {
         const owner = req.user.id;
         try {
             const order = await Order.find({ owner: owner }).sort({ date: -1 });
-            console.log(order)
             if (order) {
                 return res.status(200).send(order)
             }
@@ -36,10 +35,9 @@ class orderController {
                 return res.status(400).send('Cart not found or is empty');
             }
             let sum = 0;
-            // cart.map((cartItem) => {
-            //     sum += cartItem.price 
-            // })
-            console.log(cart)
+            cart.items.forEach((cartItem) => {
+                sum += cartItem.price;
+            });
             const order = await Order.create({
                 owner,
                 items: cart.items,
@@ -52,6 +50,26 @@ class orderController {
             console.log(e)
             res.status(400).send('400')
             
+        }
+    }
+    async deleteOrder (req, res) {
+        const orderId = req.params.id
+        try {
+            await Order.deleteOne({"_id": orderId})
+        } catch (e) {
+            console.log(e)
+            res.status(400).send('lll')
+        }
+    }
+
+    async editOrderStatus (req, res) {
+        const {orderId, newStatus} = req.body
+        try {
+            await Order.updateOne({"_id": orderId}, {"status": newStatus})
+            res.status(200).send("done")
+        } catch (e) {
+            console.log(e)
+            res.status(400).send('bbb')
         }
     }
 }

@@ -3,31 +3,34 @@ const path = require("path");
 const Item = require("../models/Item")
 
 class itemController {
-    // async create(req, res) {
-    //     try {
-    //         let {name, price, brandId, typeId, info} = req.body
-    //         const {img} = req.files
-    //         let fileName = uuid.v4() + ".jpg"
-    //         img.mv(path.resolve(__dirname, "..", "static", fileName))
-    //         const device = await Device.create({name, price, brandId, typeId, img: fileName});
-    //         if (info) {
-    //             info = JSON.parse(info)
-    //             info.forEach(i =>
-    //                 DeviceInfo.create({
-    //                     title: i.title,
-    //                     description: i.description,
-    //                     deviceId: device.id
-    //                 })
-    //             )
-    //         }
-    //         return res.json(device)
-    //     } catch (e) {
-    //         return res.status(400).json({
-    //             errs: errs.array(),
-    //             message: "что-то не так"
-    //         })
-    //     }
-    // }
+    async addItem (req, res) {
+        const item = req.body
+        try {
+            const newItem = await Item.create({
+                name: item.name,
+                price: item.price,
+                desc: item.desc,
+                imageurl: item.imageurl
+            })
+
+            await newItem.save()
+            res.status(200).send("ok")
+        } catch (error) {
+            console.error('Error adding item:', error.message);
+        }
+    }
+
+    async editItem (req, res) {
+        const { name, desc } = req.body
+        try {
+            await Item.updateOne({"name": name}, {"desc": desc})
+
+            res.status(200).send("ok")
+        } catch (error) {
+            console.error('Error editing item:', error.message);
+        }
+    }
+    
 
     async getAll(req, res) {
         try{

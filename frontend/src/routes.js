@@ -1,45 +1,32 @@
 import React from "react"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import { AuthPage } from "./pages/AuthPage"
 import { ProfilePage } from "./pages/ProfilePage"
 import { MainPage } from "./pages/MainPage"
 import { CartPage } from "./pages/CartPage"
-import { ItemPage } from "./pages/ItemPage"
+import { OrdersPage } from "./pages/OrdersPage"
 
-export const useRoutes = isAuth => {
+export const useRoutes = (isAuth, isStaff) => {
     if (isAuth){
         return (
             <Routes>
-                <Route path="/item/:id" element={
-                    <ItemPage />
-                } />
-                <Route path="/cart" exact element={
-                    <CartPage />
-                } />
-                <Route path="/profile" exact element={
-                    <ProfilePage />
-                } />
-                <Route path="/" exact element={
-                    <MainPage />
-                } />
+                <Route path="/cart" element={<CartPage /> } />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/" element={<MainPage />} />
+                <Route
+                    path="/order/all"
+                    element={<OrdersPage />}
+                />
             </Routes>
         )
     }
-
     return(
         <Routes>
-            <Route path="/item/:id" element={
-                    <ItemPage />
-                } />
-                <Route path="/cart" exact element={
-                    <AuthPage />
-                } />
-                <Route path="/profile" exact element={
-                    <AuthPage />
-                } />
-                <Route path="/" exact element={
-                    <MainPage />
-                } />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/login" element={<AuthPage />} />
+            <Route path="/" element={<MainPage />} />
+            
         </Routes>
     )
 }

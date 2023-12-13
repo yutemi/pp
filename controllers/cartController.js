@@ -6,11 +6,12 @@ class cartController {
         const owner = req.user.id 
         try {
             const cart = await Cart.findOne({ owner }) 
+            
             if (cart && cart.items.length > 0) {
                 res.status(200).send(cart) 
             } 
             else {
-                res.send(null) 
+                return res.status(400).send("Cart not found or is empty") 
             }
         } 
         catch (e) {
@@ -40,7 +41,8 @@ class cartController {
                     res.status(200).send(cart) 
                 } 
                 else {
-                    cart.items.push({ itemId, name,  price }) 
+                    cart.items.push({ itemId, name, price }) 
+                    cart.price += price
 
                     await cart.save() 
                     res.status(200).send(cart) 
@@ -50,6 +52,7 @@ class cartController {
             const newCart = await Cart.create({
                 owner,
                 items: [{ itemId, name, price }],
+                price
             })
             return res.status(201).send(newCart)
             }
