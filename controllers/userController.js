@@ -67,8 +67,10 @@ class UserController {
             }
 
             const token = generateJwt(user.id, user.email, user.role)
+
+            const cart = (await Cart.create({owner: user.id})).save()
             
-            return res.json({token})
+            res.send({token})
     
         } catch (error) {
             console.log(error.message)

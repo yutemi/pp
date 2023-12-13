@@ -7,7 +7,7 @@ class cartController {
         try {
             const cart = await Cart.findOne({ owner }) 
             if (cart && cart.items.length > 0) {
-                return res.json(cart)
+                res.status(200).send(cart) 
             } 
             else {
                 res.send(null) 
@@ -21,7 +21,6 @@ class cartController {
     async addItem(req, res) {
         const owner = req.user.id 
         const itemId = req.params.id
-
         try {
             const cart = await Cart.findOne({ owner }) 
             const item = await Item.findOne({ _id: itemId }) 
@@ -41,7 +40,7 @@ class cartController {
                     res.status(200).send(cart) 
                 } 
                 else {
-                    cart.items.push({ itemId, name, price }) 
+                    cart.items.push({ itemId, name,  price }) 
 
                     await cart.save() 
                     res.status(200).send(cart) 
@@ -66,12 +65,12 @@ class cartController {
         try {
             let cart = await Cart.findOne({ owner });
             const itemIndex = cart.items.findIndex((item) => item._id == itemId);
-            if (itemIndex > -1) {
-                let item = cart.items[itemIndex];
-                cart.items.splice(itemIndex, 1);
-                cart = await cart.save();
+        if (itemIndex > -1) {
+            let item = cart.items[itemIndex];
+            cart.items.splice(itemIndex, 1);
+            cart = await cart.save();
 
-                res.status(200).send(cart);
+            res.status(200).send(cart);
             } else {
                 res.status(404).send("item not found");
             }
