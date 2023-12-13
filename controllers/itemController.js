@@ -31,15 +31,14 @@ class itemController {
 
     async getAll(req, res) {
         try{
-            let {brandId, typeId, limit, page} = req.query
+            let {limit, page} = req.query
             page = page || 1
 
             limit = limit || 2
 
             let offset = page * limit - limit
             const items = await Item.find()
-            console.log(items)
-            // return res.json(items)
+            res.status(200).send(items)
         } catch(e) {
             console.log(e)
         }
@@ -48,7 +47,7 @@ class itemController {
     async getOne(req, res) {
         try {
             const item = await Item.findById(req.params.id)
-            return res.json(item)
+            res.status(200).send(item)
         } catch (e) {
             return res.status(500).json({message: e})
         }

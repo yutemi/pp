@@ -12,11 +12,11 @@ module.exports = function(role) {
                 return res.status(401).json({message: "Не авторизован"})
             }
             const decoded = jwt.verify(token, config.get("jwtSecret"))
-            if (decoded.role !== role) {
-                return res.status(403).json({message: "Нет доступа"})
+            if (decoded.role === role || decoded.role === "MANAGER") {
+                next()
+                req.user = decoded;
             }
-            req.user = decoded;
-            next()
+            return res.status(403).json({message: "Нет доступа"})
         } catch (e) {
             res.status(401).json({message: "Не авторизован"})
         }

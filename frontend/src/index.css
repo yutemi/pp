@@ -15,3 +15,10 @@
     height: 200px;
     margin: 50px;
 }
+
+.btn-large {
+    position: absolute;
+    top: 20%;
+    right: 5%; /* Adjust this value to control the distance from the right edge */
+    transform: translateY(-50%);
+}

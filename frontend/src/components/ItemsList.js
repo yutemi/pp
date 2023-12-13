@@ -1,36 +1,48 @@
-import React from "react"
-import {Link} from "react-router-dom"
+import React, {useState, useContext,useEffect} from "react";
+import axios from "axios";
+import { ItemCard } from "./ItemCard";
+import { AuthContext } from "../context/AuthContext";
 
-export const ItemsList = ({ items }) => {
-  if (!items.length) {
-    return <p className="center">корзина пуста</p>
-  }
+export const ItemsList = () => {
+    const [items, setItems] = useState([]);
+    const { token } = useContext(AuthContext);
 
-  return (
-    <table>
-      <thead>
-      <tr>
-        <th>№</th>
-        <th>Оригинальная</th>
-        <th>Сокращенная</th>
-        <th>Открыть</th>
-      </tr>
-      </thead>
+    useEffect(() => {
+        const fetchItems = async () => {
+        try {
+            const response = await axios.get('/api/item/')
+            setItems(response.data)
+        } catch (e) {
+            console.error('Error fetching items:', e.message);
+        }
+        };
+        fetchItems();
+    }, []);
 
-      <tbody>
-      { items.map((item, index) => {
-        return (
-          <tr key={item._id}>
-            <td>{index + 1}</td>
-            <td>{item.from}</td>
-            <td>{item.to}</td>
-            <td>
-              <Link to={`/item/${item._id}`}>Открыть</Link>
-            </td>
-          </tr>
-        )
-      }) }
-      </tbody>
-    </table>
-  )
-}
+    const handleAddToCart = async (itemId) => {
+        try {
+            const response = await axios.post(`/api/cart/add/${itemId}`, null, {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                },
+            });
+        } catch (e) {
+        console.error('Error adding item to cart:', e.message);
+        }
+    };
+
+    if (!items.length) {
+        return <p className="center">предметов пока нет</p>;
+    }
+
+    return (
+        <div>
+        <h1>распродажа сепулек!</h1>
+        <div className="row">
+            {items.map((item) => (
+                <ItemCard key={item._id} item={item} onAddToCart={handleAddToCart} />
+            ))}
+        </div>
+        </div>
+    );
+};

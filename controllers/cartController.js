@@ -3,12 +3,11 @@ const Item = require("../models/Item")
 
 class cartController {
     async getCart(req, res) {
-        const owner = req.user._id 
-
+        const owner = req.user.id 
         try {
             const cart = await Cart.findOne({ owner }) 
             if (cart && cart.items.length > 0) {
-            res.status(200).send(cart) 
+                return res.json(cart)
             } 
             else {
                 res.send(null) 
@@ -20,16 +19,15 @@ class cartController {
     }
 
     async addItem(req, res) {
-        const owner = req.user._id 
-        const { itemId, quantity } = req.body 
+        const owner = req.user.id 
+        const itemId = req.params.id
 
         try {
             const cart = await Cart.findOne({ owner }) 
             const item = await Item.findOne({ _id: itemId }) 
 
             if (!item) {
-                res.status(404).send({ message: "item not found" }) 
-                return 
+                return res.status(404).send({ message: "item not found" }) 
             }
             const price = item.price 
             const name = item.name 
@@ -37,21 +35,13 @@ class cartController {
                 const itemIndex = cart.items.findIndex((item) => item.itemId == itemId) 
                 if (itemIndex > -1) {
                     let product = cart.items[itemIndex] 
-                    product.quantity += quantity 
-
-                    cart.bill = cart.items.reduce((acc, curr) => {
-                        return acc + curr.quantity * curr.price 
-                    },0)
                     
                     cart.items[itemIndex] = product 
                     await cart.save() 
                     res.status(200).send(cart) 
                 } 
                 else {
-                    cart.items.push({ itemId, name, quantity, price }) 
-                    cart.bill = cart.items.reduce((acc, curr) => {
-                        return acc + curr.quantity * curr.price 
-                    },0)
+                    cart.items.push({ itemId, name, price }) 
 
                     await cart.save() 
                     res.status(200).send(cart) 
@@ -60,8 +50,7 @@ class cartController {
             else {
             const newCart = await Cart.create({
                 owner,
-                items: [{ itemId, name, quantity, price }],
-                bill: quantity * price,
+                items: [{ itemId, name, price }],
             })
             return res.status(201).send(newCart)
             }
@@ -72,26 +61,17 @@ class cartController {
     }
 
     async deleteItem(req, res){
-        const owner = req.user._id;
-        const itemId = req.query.itemId;
+        const owner = req.user.id;
+        const itemId = req.params.id;
         try {
             let cart = await Cart.findOne({ owner });
-
-            const itemIndex = cart.items.findIndex((item) => item.itemId == itemId);
-            
+            const itemIndex = cart.items.findIndex((item) => item._id == itemId);
             if (itemIndex > -1) {
-            let item = cart.items[itemIndex];
-            cart.bill -= item.quantity * item.price;
-            if(cart.bill < 0) {
-                cart.bill = 0
-            } 
-            cart.items.splice(itemIndex, 1);
-            cart.bill = cart.items.reduce((acc, curr) => {
-                return acc + curr.quantity * curr.price;
-            },0)
-            cart = await cart.save();
+                let item = cart.items[itemIndex];
+                cart.items.splice(itemIndex, 1);
+                cart = await cart.save();
 
-            res.status(200).send(cart);
+                res.status(200).send(cart);
             } else {
                 res.status(404).send("item not found");
             }
