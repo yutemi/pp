@@ -12,19 +12,20 @@ const orderSchema = new Schema({
             required: true
         },
         name: String,
-        quantity: {
-            type: Number,
-            required: true,
-            min: 1,
-            default: 1
-        },
         price: Number
     }],
-    bill: {
-        type: Number,
-        required: true,
-        default: 0
-    }
+    price: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        required: true
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+      },
 })
 
 module.exports = model("Order", orderSchema)

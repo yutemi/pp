@@ -14,10 +14,6 @@ const userSchema = new Schema({
         type: Types.ObjectId,
         ref: "Cart"
     }],
-    links: [{
-        type: Types.ObjectId, 
-        ref: "Link"
-        }],
     role: {
         type: String,
         default: "USER"
