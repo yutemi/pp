@@ -4,7 +4,7 @@ const config = require("config")
 module.exports = function(role) {
     return function (req, res, next) {
         if (req.method === "OPTIONS") {
-            next()
+            return next()
         }
         try {
             const token = req.headers.authorization.split(" ")[1]
@@ -13,11 +13,13 @@ module.exports = function(role) {
             }
             const decoded = jwt.verify(token, config.get("jwtSecret"))
             if (decoded.role === role || decoded.role === "MANAGER") {
-                next()
                 req.user = decoded;
+                return next()
+
             }
             return res.status(403).json({message: "Нет доступа"})
         } catch (e) {
+            res.json(token)
             res.status(401).json({message: "Не авторизован"})
         }
     };
