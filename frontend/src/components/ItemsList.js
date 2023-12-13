@@ -23,7 +23,8 @@ export const ItemsList = () => {
         try {
             const response = await axios.post(`/api/cart/add/${itemId}`, null, {
                 headers: {
-                Authorization: `Bearer ${token}`,
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 },
             });
         } catch (e) {
@@ -35,14 +36,26 @@ export const ItemsList = () => {
         return <p className="center">предметов пока нет</p>;
     }
 
+    const chunkItems = (array, size) => {
+        const chunkedArray = [];
+        for (let i = 0; i < array.length; i += size) {
+            chunkedArray.push(array.slice(i, i + size));
+        }
+        return chunkedArray;
+    };
+
+    const itemsInRows = chunkItems(items, 3);
+
     return (
         <div>
-        <h1>распродажа сепулек!</h1>
-        <div className="row">
-            {items.map((item) => (
-                <ItemCard key={item._id} item={item} onAddToCart={handleAddToCart} />
+            <h1>распродажа сепулек!</h1>
+            {itemsInRows.map((row, rowIndex) => (
+                <div key={rowIndex} className="row">
+                    {row.map((item) => (
+                        <ItemCard key={item._id} item={item} onAddToCart={handleAddToCart} />
+                    ))}
+                </div>
             ))}
-        </div>
         </div>
     );
 };
