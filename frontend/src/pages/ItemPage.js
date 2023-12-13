@@ -6,7 +6,7 @@ import { ItemCard } from "../components/ItemCard"
 import Axios from "axios"
 
 export const ItemPage = () => {
-    const {request, loading} = useHttp()
+    const {loading} = useHttp()
     const [item, setItem] = useState(null)
     const itemId = useParams().id
 
