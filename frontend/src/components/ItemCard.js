@@ -11,7 +11,7 @@ export const ItemCard = ({ item, onAddToCart }) => {
             <p>{item.desc}</p>
             <p>цена: {item.price}</p>
         </div>
-        <button onClick={() => onAddToCart(item._id)}>добавить в корзину</button>
+        <button className="b-main" onClick={() => onAddToCart(item._id)}>добавить в корзину</button>
     </div>
   );
 };
