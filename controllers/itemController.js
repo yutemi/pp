@@ -1,5 +1,3 @@
-// const uuid = require("uuid")
-const path = require("path");
 const Item = require("../models/Item")
 
 class itemController {
@@ -30,7 +28,7 @@ class itemController {
             console.error('Error editing item:', error.message);
         }
     }
-    
+
 
     async getAll(req, res) {
         try{
