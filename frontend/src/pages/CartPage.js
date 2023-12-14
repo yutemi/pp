@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 export const CartPage = () => {
     const [cartItems, setCartItems] = useState([]);
     const { loading, request } = useHttp();
-    const { token, auth } = useContext(AuthContext);
+    const { token } = useContext(AuthContext);
     const navigate = useNavigate()
 
     const createOrder = async (cartItems) => {
@@ -30,8 +30,8 @@ export const CartPage = () => {
         try {
             await axios.delete(`/api/cart/del/${itemId}`, {
                 headers: {
-                  'Authorization': `Bearer ${token}`,
-                  'Content-Type': 'application/json'
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
                 },
             });
             setCartItems((prevItems) => prevItems.filter((item) => item._id !== itemId));
@@ -40,53 +40,53 @@ export const CartPage = () => {
         }
     };
 
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const response = await axios.get("/api/cart", {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          },
-        });
-        setCartItems(response.data.items);
-      } catch (e) {}
-    };
-    fetchCartItems();
-  }, [token, request]);
+    useEffect(() => {
+        const fetchCartItems = async () => {
+        try {
+            const response = await axios.get("/api/cart", {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            });
+            setCartItems(response.data.items);
+        } catch (e) {}
+        };
+        fetchCartItems();
+    }, [token, request]);
 
-  
-  if (loading) {
-    return ( 
-        <Loader />
-    )
-  }
-  if (!cartItems.length) {
+
+    if (loading) {
+        return ( 
+            <Loader />
+        )
+    }
+    if (!cartItems.length) {
+        return (
+            <p className="center">корзина пуста</p>
+        )
+    }
+
     return (
-        <p className="center">корзина пуста</p>
-    )
-  }
-
-  return (
-    <div>
         <div>
-            {cartItems.map((cartItem) => (
-                <div key={cartItem._id} className="cart-item">
-                    <div>
-                        <p>{cartItem.name}</p>
-                        <p>{cartItem.price}</p>
+            <div>
+                {cartItems.map((cartItem) => (
+                    <div key={cartItem._id} className="cart-item">
+                        <div>
+                            <p>{cartItem.name}</p>
+                            <p>{cartItem.price}</p>
+                        </div>
+                        <div className="b">
+                            <button className="btn" onClick={() => onDelete(cartItem._id)}>
+                                Удалить
+                            </button>
+                        </div>
                     </div>
-                    <div className="b">
-                        <button className="btn" onClick={() => onDelete(cartItem._id)}>
-                            Удалить
-                        </button>
-                    </div>
-                </div>
-            ))}
+                ))}
+            </div>
+            <div className="b-large">
+                <button className="btn-large" onClick={() => createOrder(cartItems)}>Заказать</button>
+            </div>
         </div>
-        <div className="b-large">
-            <button className="btn-large" onClick={() => createOrder(cartItems)}>Заказать</button>
-        </div>
-    </div>
-  );
+    );
 };

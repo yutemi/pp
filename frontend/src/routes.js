@@ -5,6 +5,7 @@ import { ProfilePage } from "./pages/ProfilePage"
 import { MainPage } from "./pages/MainPage"
 import { CartPage } from "./pages/CartPage"
 import { OrdersPage } from "./pages/OrdersPage"
+import { ItemDetailPage } from "./components/ItemDetailPage"
 
 export const useRoutes = (isAuth, isStaff) => {
     if (isAuth){
@@ -15,7 +16,7 @@ export const useRoutes = (isAuth, isStaff) => {
                 <Route path="/" element={<MainPage />} />
                 <Route
                     path="/order/all"
-                    element={<OrdersPage />}
+                    element={(isStaff) ? <OrdersPage /> : <Navigate to="/" />}
                 />
             </Routes>
         )
@@ -26,7 +27,7 @@ export const useRoutes = (isAuth, isStaff) => {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/login" element={<AuthPage />} />
             <Route path="/" element={<MainPage />} />
-            
+            <Route path="/item/:id" element={<ItemDetailPage />} />
         </Routes>
     )
 }
