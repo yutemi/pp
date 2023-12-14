@@ -2,10 +2,12 @@ import React, {useState, useContext,useEffect} from "react";
 import axios from "axios";
 import { ItemCard } from "./ItemCard";
 import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export const ItemsList = () => {
     const [items, setItems] = useState([]);
     const { token } = useContext(AuthContext);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchItems = async () => {
@@ -19,9 +21,24 @@ export const ItemsList = () => {
         fetchItems();
     }, []);
 
+    const createSpecialOrder = async () => {
+        try {
+            await axios.post(`/api/order/createS`, null, {
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": 'application/json'
+                },
+            });
+            navigate("/")
+            alert("ваш заказ создан. в ближайшее время с вами свяжется менеджер")
+        } catch (e) {
+            console.error('Error creating order:', e.message);
+        }
+    };
+
     const handleAddToCart = async (itemId) => {
         try {
-            const response = await axios.post(`/api/cart/add/${itemId}`, null, {
+            await axios.post(`/api/cart/add/${itemId}`, null, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -49,6 +66,9 @@ export const ItemsList = () => {
     return (
         <div>
             <h1>распродажа сепулек!</h1>
+            <div className="b" style={{marginBottom: "20px"}}>
+                <button className="btn" onClick={createSpecialOrder}>заказ по Вашим критериям</button>
+            </div>
             {itemsInRows.map((row, rowIndex) => (
                 <div key={rowIndex} className="row">
                     {row.map((item) => (

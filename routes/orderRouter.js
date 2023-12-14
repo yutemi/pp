@@ -6,6 +6,7 @@ const checkRoleMiddleware = require("../middleware/role.middleware")
 
 
 router.post("/create", authMiddleware, orderController.createOrder)
+router.post("/createS", authMiddleware, orderController.createSpecialOrder)
 router.get("/", authMiddleware, orderController.getOrders)
 router.get("/all", checkRoleMiddleware("WORKER"), orderController.getAllOrders)
 router.post("/edit", checkRoleMiddleware("WORKER"), orderController.editOrderStatus)

@@ -33,8 +33,7 @@ class orderController {
             let sum = 0;
             const order = await Order.create({
                 owner,
-                items: [],
-                price: sum,
+                price: "заказ по критериям клиента",
                 status: "в рассмотрении"
             })
             return res.status(201).send({order})
@@ -59,7 +58,7 @@ class orderController {
                 owner,
                 items: cart.items,
                 price: sum,
-                status: "в процессе"
+                status: "в ожидании"
             })
             const data = await Cart.findByIdAndDelete({ _id: cart.id });
             return res.status(201).send({order})
