@@ -43,7 +43,7 @@ class UserController {
 
     async login(req, res) {
         try {
-            const errs = validationResult(req)
+                        const errs = validationResult(req)
     
             if (!errs.isEmpty()){
                 return res.status(400).json({
@@ -69,8 +69,8 @@ class UserController {
             const token = generateJwt(user.id, user.email, user.role)
 
             const cart = (await Cart.create({owner: user.id})).save()
-            
-            res.send({token})
+
+            res.send({token, userId: user.id, role: user.role})
     
         } catch (error) {
             console.log(error.message)
@@ -80,7 +80,7 @@ class UserController {
 
     async check(req, res) {
         const token = generateJwt(req.user.id, req.user.email, req.user.role)
-        return res.json({token})
+                return res.json({token})
     }
 }
 

@@ -34,12 +34,6 @@ class itemController {
 
     async getAll(req, res) {
         try{
-            let {limit, page} = req.query
-            page = page || 1
-
-            limit = limit || 2
-
-            let offset = page * limit - limit
             const items = await Item.find()
             res.status(200).send(items)
         } catch(e) {

@@ -19,11 +19,28 @@ class orderController {
         try {
             const order = await Order.find().sort({ date: -1 });
             if (order) {
-                return res.status(200).send(order)
+                                return res.status(200).send(order)
             }
             res.status(404).send('нет заказов')
         } catch (e) {
             res.status(500).send()
+        }
+    }
+
+    async createSpecialOrder (req, res) { 
+        const owner = req.user.id;
+        try {
+            let sum = 0;
+            const order = await Order.create({
+                owner,
+                items: [],
+                price: sum,
+                status: "в рассмотрении"
+            })
+            return res.status(201).send({order})
+        } catch (e) {
+            console.log(e)
+            res.status(400).send('400') 
         }
     }
 
@@ -48,8 +65,7 @@ class orderController {
             return res.status(201).send({order})
         } catch (e) {
             console.log(e)
-            res.status(400).send('400')
-            
+            res.status(400).send('400') 
         }
     }
     async deleteOrder (req, res) {
